@@ -25,10 +25,24 @@ const app=express();
 })()*/
 
 import dotenv from "dotenv";
+import { FaProcedures } from "react-icons/fa";
 dotenv.config({ path: "./.env" });//to use env variables
 const PORT = process.env.PORT || 8000;
 const app = express();
-app.listen(PORT, async () => {
+
     console.log(`Server is running on port ${PORT}`);
-    await connectDB();
-});
+     connectDB()
+    .then(() => {
+        console.log("Database connected");
+        app.on("error",(error)=>{
+            console.log("error",error)
+            throw new Error("Failed to connect with server")
+        })
+        app.listen(PORT || 8000, () => {
+            console.log(`Server is running on port ${PORT}`);
+        });
+    }).catch((err) => {
+        console.log("Database connection failed", err);
+        process.exit(1);
+    });
+
