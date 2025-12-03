@@ -49,7 +49,11 @@ const userSchema=new Schema({
     refretoken:{
         type:String,
     }
-},timestamps=true)
+},
+{
+    timestamps:true
+}
+)
 
 userSchema.pre("save",async function(next){
     if(this.isModified("password")){
@@ -77,5 +81,5 @@ userSchema.methods.generateRefreshToken = function() {
         { expiresIn: process.env.REFRESH_TOKEN_EXPIRY }
     );
 }
-export const User =mongoose.model("User",userSchema);
-
+ const User = mongoose.model("User",userSchema);
+export default User ;
