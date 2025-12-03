@@ -28,12 +28,12 @@ const userSchema=new Schema({
         required:[true,"Password is required"],
     },
     avatar:{
-        type:String,//cloudnary url
+        type:String,//cloudniary url
         default:"",
         required:true,
     },
     coverimage:{
-        type:String,//cloudnary url
+        type:String,//cloudinary url
         default:"",
         required:true,
     },
@@ -61,5 +61,21 @@ userSchema.pre("save",async function(next){
 userSchema.methods.isPasswordCorrect = async function(pass){
     return await bcrypt.compare(pass, this.password); //return true or false
 };
+
+userSchema.methods.generateAccessToken = function() {
+    return jwt.sign(
+      { userId: this._id, username: this.username },        
+        process.env.ACCESS_TOKEN_SECRET,
+        { expiresIn: process.env.ACCESS_TOKEN_EXPIRY }
+    );
+}
+
+userSchema.methods.generateRefreshToken = function() {
+    return jwt.sign(
+      { userId: this._id, username: this.username ,email:this.email, fullname:this.fullname}, 
+        process.env.REFRESH_TOKEN_SECRET,       
+        { expiresIn: process.env.REFRESH_TOKEN_EXPIRY }
+    );
+}
 export const User =mongoose.model("User",userSchema);
 

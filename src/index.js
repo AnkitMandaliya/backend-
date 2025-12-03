@@ -23,12 +23,12 @@ const app=express();
         console.log("Database connection failed")
     }
 })()*/
-
+import { app } from "./app.js";
 import dotenv from "dotenv";
-import { FaProcedures } from "react-icons/fa";
+
 dotenv.config({ path: "./.env" });//to use env variables
 const PORT = process.env.PORT || 8000;
-const app = express();
+
 
     console.log(`Server is running on port ${PORT}`);
      connectDB()
