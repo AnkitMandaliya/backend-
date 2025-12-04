@@ -35,7 +35,6 @@ const userSchema=new Schema({
     coverimage:{
         type:String,//cloudinary url
         default:"",
-        required:true,
     },
     watchhistory:{
         type:[
@@ -82,4 +81,4 @@ userSchema.methods.generateRefreshToken = function() {
     );
 }
  const User = mongoose.model("User",userSchema);
-export default User ;
+export { User } ;
